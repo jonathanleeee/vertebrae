@@ -22,7 +22,7 @@
 var Comment = Backbone.Model.extend({
   /* This is purposely different from the previous steps.
    * Make sure to do those first (!!!) and then check here for new patterns. */
-
+  // initialize is a method, 
   initialize: function(message, votes) {
     this.set('message', message);
     if (votes) { this.set('votes', votes); }
@@ -111,6 +111,17 @@ var CommentsView = Backbone.View.extend({
      * Remember, we have the underscore functions: */
     this.$el.find('ul').append(this.collection.map(function(comment) {
       // YOUR CODE HERE
+      var template = _.template("<%- value %>");
+      return [
+        '<li>',
+          // '<span class="votes">',
+          //   template({value: comment.get('votes')}),
+          // '</span>',
+          '<span class="comment">',
+            template({value: comment.get('message')}),
+          '</span>',
+        '</li>'
+      ].join('');
     }));
 
     return this.$el;
@@ -134,7 +145,7 @@ var comments = new Comments(commentList);
 var commentsView = new CommentsView({ collection: comments });
 
 // Append it to the page (uncomment this when you are ready):
-// $('body').append(commentsView.render());
+$('body').append(commentsView.render());
     </script>
   </body>
 </html>

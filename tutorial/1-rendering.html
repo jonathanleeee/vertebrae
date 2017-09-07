@@ -27,7 +27,7 @@ var renderSomethingOnThePage = function(message) {
    */
   var html = [
     '<div>',
-      '<span>',
+      '<span class="message">',
         message,
       '</span>',
     '</div>',
@@ -37,7 +37,7 @@ var renderSomethingOnThePage = function(message) {
   /* Question:
    * How would you modify this template to add style to the look of the page?
    *
-   * _Look below for one possible solution._
+   * One possible solution is to add class/id and use style.css to assign styles
    */
 
   /* Here is the jQuery call to append this html string to the page's body.
@@ -56,8 +56,8 @@ renderSomethingOnThePage(
  * will draw something to the page using the template defined in that function:
  */
 
-// renderSomethingOnThePage('Each additional message you give this function...');
-// renderSomethingOnThePage('...will draw a new message on the page!');
+renderSomethingOnThePage('Each additional message you give this function...');
+renderSomethingOnThePage('...will draw a new message on the page!');
 
 /* Let's revisit what we have learned from the last exercise.
  * We are working with a different application this time - we are going to be
@@ -101,7 +101,9 @@ var Message = Backbone.Model.extend({
      * Putting it into the initialize function let's us be sure that
      * all models that are created will have event listeners on them.
      */
-    this.on(YOUR CODE HERE);
+    this.on('change:message', function(e) {
+      renderSomethingOnThePage(this.get('message'));
+    });
     /* It is your turn to write the event handler.
      *
      * Make an event listener that will listen for a `change` in this model's
@@ -114,10 +116,10 @@ var Message = Backbone.Model.extend({
      */
   },
 
-  /* This second method is specifically useful for this message.
-   * In the future we will need to be able to alert the message on our model
-   * and want to be able to call this function, so we define it on the model.
-   */
+   // This second method is specifically useful for this message.
+   // * In the future we will need to be able to alert the message on our model
+   // * and want to be able to call this function, so we define it on the model.
+   
   alertThisMessage: function() {
     /* Note: You will frequently be storing attributes on your models,
      * and the model needs to be aware of these changes,
@@ -141,7 +143,7 @@ var myNewMessage = new Message();
 
 // ...and then make a change on that model to see it render
 myNewMessage.set({message: 'someMessage'});
-
+myNewMessage.alertThisMessage();
 
 /* Once the model is rendering on the `change` event, move on to step 3!
  *
